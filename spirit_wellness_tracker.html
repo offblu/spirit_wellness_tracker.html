@@ -1,0 +1,442 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="Content-Style-Type" content="text/css">
+  <title></title>
+  <meta name="Generator" content="Cocoa HTML Writer">
+  <meta name="CocoaVersion" content="2487.6">
+  <style type="text/css">
+    p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; font: 12.0px Helvetica; min-height: 14.0px}
+  </style>
+</head>
+<body>
+<p class="p1">&lt;!DOCTYPE html&gt;</p>
+<p class="p1">&lt;html lang="en"&gt;</p>
+<p class="p1">&lt;head&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta charset="UTF-8"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="viewport" content="width=device-width, initial-scale=1.0"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;title&gt;Spirit Wellness Tracker&lt;/title&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="manifest" href="manifest.json"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="theme-color" content="#1a202c"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="apple-mobile-web-app-capable" content="yes"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;meta name="apple-mobile-web-app-status-bar-style" content="black"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;link rel="apple-touch-icon" href="/icon-192.png"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react@17/umd/react.development.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://unpkg.com/@babel/standalone/babel.min.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://cdn.tailwindcss.com"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"&gt;&lt;/script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;style&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>/* Tailwind CSS setup for dark mode toggle */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>:root {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--color-primary: #1e3a8a; /* Default Blue-800 */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">        </span>.dark {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>--color-primary: #818cf8; /* Indigo-400 for dark mode */</p>
+<p class="p1"><span class="Apple-converted-space">        </span>}</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/style&gt;</p>
+<p class="p1">&lt;/head&gt;</p>
+<p class="p1">&lt;body&gt;</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;div id="root"&gt;&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Placeholder for manifest.json content (not strictly needed for single file PWA but good practice)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const manifest = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"name": "Spirit Tracker",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"short_name": "Spirit",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"start_url": ".",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"display": "standalone",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"background_color": "#111827",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"theme_color": "#10b981",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>"icons": [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ "src": "/icon-192.png", "sizes": "192x192", "type": "image/png" },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ "src": "/icon-512.png", "sizes": "512x512", "type": "image/png" }</p>
+<p class="p1"><span class="Apple-converted-space">            </span>]</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Initialize Firebase (replace with your actual config for production)</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const firebaseConfig = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>apiKey: "YOUR_API_KEY",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>authDomain: "YOUR_PROJECT_ID.firebaseapp.com",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>projectId: "YOUR_PROJECT_ID",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>storageBucket: "YOUR_PROJECT_ID.appspot.com",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>messagingSenderId: "YOUR_MESSAGING_SENDER_ID",</p>
+<p class="p1"><span class="Apple-converted-space">            </span>appId: "YOUR_APP_ID"</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p1"><span class="Apple-converted-space">        </span>firebase.initializeApp(firebaseConfig);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const db = firebase.firestore();</p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;/script&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">    </span>&lt;script type="text/babel"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const { useState, useEffect } = React;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Custom Hook for Firestore Persistence</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const useFirestore = (collectionName, docId, defaultValue) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [data, setData] = useState(defaultValue);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const docRef = db.collection(collectionName).doc(docId);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>useEffect(() =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const unsubscribe = docRef.onSnapshot(doc =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>if (doc.exists) {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>setData(doc.data());</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>} else {</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>// Create initial data if it doesn't exist</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>docRef.set(defaultValue, { merge: true });</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>setData(defaultValue);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}, error =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>console.error("Firestore error:", error);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>// Fallback to default state on error</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setData(defaultValue);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>});</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return unsubscribe;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>}, [docId]);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const updateData = (newData) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>docRef.set(newData, { merge: true })</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>.catch(error =&gt; console.error("Error writing document: ", error));</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return [data, updateData];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Data Definitions ---</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const todayKey = new Date().toISOString().split('T')[0];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const initialTasks = [</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 1, text: "Journal 3 things I'm grateful for", category: "Mental Health", color: "sky", isDone: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 2, text: "20 min of high-intensity cardio", category: "Exercise", color: "emerald", isDone: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 3, text: "10 min of Mindful Reading (book, not news)", category: "Inner Work", color: "amber", isDone: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 4, text: "Practice 5 min box breathing", category: "Mental Health", color: "sky", isDone: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 5, text: "30 min strength training", category: "Exercise", color: "emerald", isDone: false },</p>
+<p class="p1"><span class="Apple-converted-space">            </span>{ id: 6, text: "Set daily intention for Inner Peace", category: "Inner Work", color: "amber", isDone: false },</p>
+<p class="p1"><span class="Apple-converted-space">        </span>];</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const initialProgress = { tasks: initialTasks, lastUpdate: Date.now() };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const initialSettings = { isDarkMode: false, userName: 'Spirit' };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- End Data Definitions ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// Custom Hook for daily progress persistence</p>
+<p class="p1"><span class="Apple-converted-space">        </span>const useDailyRoutine = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [progressData, setProgressData] = useFirestore('dailyRoutine', todayKey, initialProgress);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const tasks = progressData.tasks || initialTasks;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const toggleTask = (taskId) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const newTasks = tasks.map(task =&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>task.id === taskId ? { ...task, isDone: !task.isDone } : task</p>
+<p class="p1"><span class="Apple-converted-space">                </span>);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setProgressData({ ...progressData, tasks: newTasks });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const addTask = (text, category) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const newId = Date.now();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const colorMap = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>'Inner Work': 'amber',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>'Exercise': 'emerald',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>'Mental Health': 'sky'</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const newTask = {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>id: newId,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>text: text,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>category: category,</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>color: colorMap[category] || 'gray',</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>isDone: false</p>
+<p class="p1"><span class="Apple-converted-space">                </span>};</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const newTasks = [...tasks, newTask];</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setProgressData({ ...progressData, tasks: newTasks });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const deleteTask = (taskId) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const newTasks = tasks.filter(task =&gt; task.id !== taskId);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>setProgressData({ ...progressData, tasks: newTasks });</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return { tasks, toggleTask, addTask, deleteTask };</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Components ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ColorClasses = {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>sky: 'text-sky-400 bg-sky-900/20 border-sky-600',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>emerald: 'text-emerald-400 bg-emerald-900/20 border-emerald-600',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>amber: 'text-amber-400 bg-amber-900/20 border-amber-600',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Used for UI</p>
+<p class="p1"><span class="Apple-converted-space">            </span>primary: 'text-teal-400 border-teal-600',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>bg: 'bg-gray-800',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>text: 'text-gray-100',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>darkBg: 'bg-gray-900',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>cardBg: 'bg-gray-800/80',</p>
+<p class="p1"><span class="Apple-converted-space">            </span>icon: 'text-teal-400'</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const TaskItem = ({ task, toggleTask, deleteTask }) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;div className={`flex items-center p-3 my-2 rounded-lg transition-all duration-300 ${ColorClasses.cardBg} shadow-lg hover:shadow-xl`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>type="checkbox"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>checked={task.isDone}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>onChange={() =&gt; toggleTask(task.id)}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>className={`form-checkbox h-5 w-5 rounded transition duration-150 ease-in-out ${task.color === 'sky' ? 'text-sky-500' : task.color === 'emerald' ? 'text-emerald-500' : 'text-amber-500'} bg-gray-700 border-gray-600 focus:ring-offset-gray-900`}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="flex-grow ml-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p className={`font-medium ${task.isDone ? 'line-through opacity-60' : ColorClasses.text}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{task.text}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className={`text-xs font-semibold uppercase tracking-wider ${task.color === 'sky' ? 'text-sky-400' : task.color === 'emerald' ? 'text-emerald-400' : 'text-amber-400'}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{task.category}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>onClick={() =&gt; deleteTask(task.id)}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>className="ml-4 p-1 text-gray-500 hover:text-red-500 transition-colors duration-150"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>aria-label="Delete Task"</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">        </span>);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const ProgressRing = ({ total, completed }) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const radius = 50;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const circumference = 2 * Math.PI * radius;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const strokeDashoffset = circumference - (completed / total) * circumference;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const percentage = total &gt; 0 ? Math.round((completed / total) * 100) : 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="flex flex-col items-center justify-center p-6 mb-4 rounded-xl transition-all duration-300 shadow-2xl bg-gray-800/50 backdrop-blur-sm border border-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;svg className="w-32 h-32 transform -rotate-90"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;circle</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>className="text-gray-700"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>strokeWidth="8"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>stroke="currentColor"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>fill="transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>r={radius}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>cx="64"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>cy="64"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;circle</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>className={`transition-all duration-700 ${ColorClasses.icon}`}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>strokeWidth="8"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>strokeDasharray={circumference}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>strokeDashoffset={strokeDashoffset}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>strokeLinecap="round"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>stroke="currentColor"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>fill="transparent"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>r={radius}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>cx="64"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>cy="64"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;span className={`absolute text-2xl font-bold ${ColorClasses.text}`}&gt;{percentage}%&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;p className="mt-3 text-sm font-semibold uppercase tracking-wider text-teal-400"&gt;Daily Progress&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>// --- Tab Views ---</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const RoutinePage = ({ tasks, toggleTask, addTask, deleteTask }) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const completedTasks = tasks.filter(t =&gt; t.isDone).length;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const totalTasks = tasks.length;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [showAddForm, setShowAddForm] = useState(false);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [newTaskText, setNewTaskText] = useState('');</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const [newTaskCategory, setNewTaskCategory] = useState('Inner Work');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const handleAddTask = (e) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>e.preventDefault();</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (newTaskText.trim()) {</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>addTask(newTaskText, newTaskCategory);</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setNewTaskText('');</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>setShowAddForm(false);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>}</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="p-4 pt-6 pb-20 overflow-y-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;ProgressRing total={totalTasks} completed={completedTasks} /&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="space-y-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>{tasks.map(task =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;TaskItem</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>key={task.id}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>task={task}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>toggleTask={toggleTask}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>deleteTask={deleteTask}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>onClick={() =&gt; setShowAddForm(true)}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>className={`fixed bottom-20 right-4 p-4 rounded-full shadow-2xl transition-transform transform hover:scale-105 duration-200 ${ColorClasses.darkBg} border border-teal-500`}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>aria-label="Add New Task"</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;svg className={`w-6 h-6 ${ColorClasses.icon}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/button&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                    </span>{showAddForm &amp;&amp; (</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="fixed inset-0 bg-gray-900/90 backdrop-blur-sm z-50 flex items-center justify-center p-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;form onSubmit={handleAddTask} className="w-full max-w-md p-6 rounded-xl bg-gray-800 shadow-2xl border border-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;h3 className={`text-xl font-bold mb-4 ${ColorClasses.text}`}&gt;Add New Routine Task&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;input</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>type="text"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>value={newTaskText}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onChange={(e) =&gt; setNewTaskText(e.target.value)}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>placeholder="Task description (e.g., Drink 8 glasses of water)"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className="w-full p-3 mb-4 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:outline-none focus:border-teal-400"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>required</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>/&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;select</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>value={newTaskCategory}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onChange={(e) =&gt; setNewTaskCategory(e.target.value)}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className="w-full p-3 mb-6 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:outline-none focus:border-teal-400"</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;option value="Inner Work"&gt;Inner Work&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;option value="Exercise"&gt;Exercise&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;option value="Mental Health"&gt;Mental Health&lt;/option&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/select&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div className="flex justify-end space-x-3"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>type="button"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>onClick={() =&gt; setShowAddForm(false)}</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="py-2 px-4 rounded-lg text-gray-300 hover:bg-gray-700 transition duration-150"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Cancel</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>type="submit"</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>className="py-2 px-4 rounded-lg bg-teal-600 text-white font-semibold hover:bg-teal-500 transition duration-150"</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                        </span>Add Task</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/form&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>)}</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const JournalPage = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">             </span>// Mock data for the Journal entry - replace with Firestore context later</p>
+<p class="p1"><span class="Apple-converted-space">             </span>const [journalText, setJournalText] = useState("");</p>
+<p class="p1"><span class="Apple-converted-space">             </span>const [mood, setMood] = useState('Neutral');</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>const moods = [</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ name: 'Amazing', icon: '✨' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ name: 'Good', icon: '😊' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ name: 'Neutral', icon: '😐' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ name: 'Stressed', icon: '😥' },</p>
+<p class="p1"><span class="Apple-converted-space">                </span>{ name: 'Low', icon: '😞' },</p>
+<p class="p1"><span class="Apple-converted-space">             </span>];</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>const handleSubmit = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>console.log(`Journal Saved! Mood: ${mood}, Entry: ${journalText}`);</p>
+<p class="p1"><span class="Apple-converted-space">                </span>alert(`Journal entry saved for ${todayKey}!`);</p>
+<p class="p1"><span class="Apple-converted-space">             </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">             </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="p-4 pt-6 pb-20 overflow-y-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-gray-800/70 p-5 rounded-xl shadow-2xl border border-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h2 className={`text-xl font-bold mb-4 border-b pb-2 ${ColorClasses.icon} border-teal-800`}&gt;Daily Reflection: {todayKey}&lt;/h2&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p className={`mb-3 text-sm font-semibold ${ColorClasses.text}`}&gt;How do you feel right now?&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="flex justify-around mb-6 p-2 rounded-lg bg-gray-700 border border-gray-600"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{moods.map(m =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>key={m.name}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>onClick={() =&gt; setMood(m.name)}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className={`flex flex-col items-center p-2 rounded-lg transition-all duration-150 transform hover:scale-110 ${mood === m.name ? 'bg-teal-600 text-white shadow-lg' : 'text-gray-400 hover:bg-gray-600'}`}</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span className="text-xl"&gt;{m.icon}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>&lt;span className="text-xs font-medium mt-1"&gt;{m.name}&lt;/span&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;p className={`mb-3 text-sm font-semibold ${ColorClasses.text}`}&gt;Journal Entry&lt;/p&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;textarea</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>value={journalText}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>onChange={(e) =&gt; setJournalText(e.target.value)}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>placeholder="Write about your day, your triumphs, and your challenges. What did the Spirit app help you accomplish?"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>rows="8"</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>className="w-full p-3 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:outline-none focus:border-teal-400 resize-none"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&gt;&lt;/textarea&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;button</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>onClick={handleSubmit}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>className="mt-4 w-full py-3 rounded-lg bg-teal-600 text-white font-bold text-lg hover:bg-teal-500 transition duration-150 shadow-md"</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>Save Reflection</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">            </span>);</p>
+<p class="p1"><span class="Apple-converted-space">        </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">        </span>const CalendarPage = () =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">            </span>// Mock data for Calendar - replace with Firestore context later</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const mockCompletionData = {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>'2025-10-10': 100,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>'2025-10-11': 80,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>'2025-10-12': 50,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>'2025-10-13': 100,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>'2025-10-14': 75,</p>
+<p class="p1"><span class="Apple-converted-space">                </span>'2025-10-15': 25,</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const today = new Date();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const year = today.getFullYear();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const month = today.getMonth();</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const daysInMonth = (m, y) =&gt; new Date(y, m + 1, 0).getDate();</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const firstDayOfMonth = (m, y) =&gt; new Date(y, m, 1).getDay(); // 0 = Sunday</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const days = Array.from({ length: daysInMonth(month, year) }, (_, i) =&gt; i + 1);</p>
+<p class="p1"><span class="Apple-converted-space">            </span>const emptyDays = Array.from({ length: firstDayOfMonth(month, year) }, (_, i) =&gt; i);</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>const getDayColor = (day) =&gt; {</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const dateKey = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;</p>
+<p class="p1"><span class="Apple-converted-space">                </span>const completion = mockCompletionData[dateKey] || 0;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (completion === 100) return 'bg-teal-600 text-white shadow-lg shadow-teal-500/30';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (completion &gt; 75) return 'bg-emerald-600 text-white shadow-md shadow-emerald-500/30';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (completion &gt; 50) return 'bg-amber-600 text-white shadow-sm shadow-amber-500/30';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>if (completion &gt; 0) return 'bg-gray-700 text-gray-300';</p>
+<p class="p1"><span class="Apple-converted-space">                </span>return 'bg-gray-800 text-gray-500';</p>
+<p class="p1"><span class="Apple-converted-space">            </span>};</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">            </span>return (</p>
+<p class="p1"><span class="Apple-converted-space">                </span>&lt;div className="p-4 pt-6 pb-20 overflow-y-auto"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                    </span>&lt;div className="bg-gray-800/70 p-5 rounded-xl shadow-2xl border border-gray-700"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;h2 className={`text-xl font-bold mb-6 text-center ${ColorClasses.text}`}&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>Wellness History</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/h2&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="flex justify-between items-center mb-4"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button className="text-teal-400 hover:text-teal-300"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;h3 className="text-lg font-semibold text-gray-100"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>{new Date(year, month).toLocaleString('default', { month: 'long', year: 'numeric' })}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/h3&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;button className="text-teal-400 hover:text-teal-300"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"&gt;&lt;path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7"&gt;&lt;/path&gt;&lt;/svg&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>&lt;/button&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="grid grid-cols-7 gap-1 text-center text-sm font-semibold text-gray-400 mb-2"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div key={day} className="text-xs"&gt;{day}&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;/div&gt;</p>
+<p class="p2"><br></p>
+<p class="p1"><span class="Apple-converted-space">                        </span>&lt;div className="grid grid-cols-7 gap-1"&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{emptyDays.map((_, index) =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div key={`empty-${index}`} className="h-10"&gt;&lt;/div&gt;</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>))}</p>
+<p class="p1"><span class="Apple-converted-space">                            </span>{days.map(day =&gt; (</p>
+<p class="p1"><span class="Apple-converted-space">                                </span>&lt;div</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>key={day}</p>
+<p class="p1"><span class="Apple-converted-space">                                    </span>className={`h-10 flex items-center justify-center rounded-</p>
+</body>
+</html>
